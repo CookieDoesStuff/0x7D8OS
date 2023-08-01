@@ -38,7 +38,7 @@ void printChar(uint16_t c)
 	outb(0x3D5, (uint8_t) ((pos >> 8) & 0xFF));
 }
 
-void putc(unsigned char c)
+void putc(int c)
 {
     printChar(mergeChar(c, currentColour));
 }

@@ -3,5 +3,5 @@
 
 void putchar(int c)
 {
-    putc((unsigned char)c);
+    putc(c);
 }
