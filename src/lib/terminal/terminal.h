@@ -33,6 +33,7 @@ uint16_t mergeChar(unsigned char, uint8_t);
 void setColour(uint8_t);
 
 void printChar(uint16_t);
+void putc(unsigned char c);
 void printStr(const char*);
 
 void initTerminal(void);

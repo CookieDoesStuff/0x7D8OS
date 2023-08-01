@@ -38,6 +38,11 @@ void printChar(uint16_t c)
 	outb(0x3D5, (uint8_t) ((pos >> 8) & 0xFF));
 }
 
+void putc(unsigned char c)
+{
+    printChar(mergeChar(c, currentColour));
+}
+
 void printStr(const char* str)
 {
     for (int i = 0; i < strlen(str); i++)
