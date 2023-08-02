@@ -30,6 +30,7 @@ void printChar(uint16_t c)
         currentX = 0;
         currentY++;
     }
+    //move cursor
     uint16_t pos = currentY * VGA_WIDTH + currentX;
 
 	outb(0x3D4, 0x0F);
@@ -40,7 +41,13 @@ void printChar(uint16_t c)
 
 void putc(int c)
 {
-    printChar(mergeChar(c, currentColour));
+    if (c == '\n')
+    {
+        currentX = 0;
+        currentY++;
+    }
+    else 
+        printChar(mergeChar(c, currentColour));
 }
 
 void printStr(const char* str)

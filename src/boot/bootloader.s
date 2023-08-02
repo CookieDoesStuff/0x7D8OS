@@ -24,9 +24,13 @@ stack_top:
 _start:
 	mov $stack_top, %esp
 
+	call _init
+
+	cli # disable interrupts
+
 	call _startKernel
     
-	cli
+	
 1:	hlt
 	jmp 1b
 
