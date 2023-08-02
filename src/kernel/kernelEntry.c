@@ -6,8 +6,7 @@ void _startKernel(void)
     initTerminal();
     int num = 32;
     double pi = 3.14159;
-    const char* str = "Hello, World!";
+    const char* str = " next str";
 
-    printf("Integer: %o\n", num);
-
+    printf("first str%s%d%c", str, num, 'c');
 }

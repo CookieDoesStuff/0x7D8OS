@@ -24,8 +24,8 @@ void itoa(int num, char* buffer, uint8_t base)
         buffer[i++] = (rem > 9) ? (rem - 10) + 'a' : rem + '0';
         num = num / base;
     }
-    if (sign < 0)
-        buffer[i++] = '-';
+    
+    num = (sign < 0) ? -1 : 1;
     
     reverse(buffer);
 }

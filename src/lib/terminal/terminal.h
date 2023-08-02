@@ -30,6 +30,9 @@ static const uint8_t VGA_HEIGHT = 25;
 uint8_t mergeColour(enum textColour, enum textColour);
 uint16_t mergeChar(unsigned char, uint8_t);
 
+void scroll(uint8_t);
+void updateCursor();
+
 void setColour(uint8_t);
 
 void printChar(uint16_t);

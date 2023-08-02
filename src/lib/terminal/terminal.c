@@ -15,6 +15,35 @@ uint16_t mergeChar(unsigned char uc, uint8_t colour)
 	return (uint16_t)uc | (uint16_t)colour << 8;
 }
 
+void scroll(uint8_t lines)
+{
+    for (uint8_t y = lines; y < VGA_HEIGHT; y++)
+    {
+        for (uint8_t x = 0; x < VGA_WIDTH; x++)
+            terminalBuffer[(y - lines) * VGA_WIDTH + x] = terminalBuffer[y * VGA_WIDTH + x];
+    }
+
+    for (uint8_t y = VGA_HEIGHT - lines; y < VGA_HEIGHT; y++)
+    {
+        for (uint8_t x = 0; x < VGA_WIDTH; x++)
+            terminalBuffer[y * VGA_WIDTH + x] = mergeChar(' ', mergeColour(VGA_COLOUR_BLACK, VGA_COLOUR_BLACK));
+    }
+    
+    currentY -= lines;
+    currentY = (currentY < 0) ? 0 : currentY;
+    currentX = 0;
+}
+
+void updateCursor()
+{
+    uint16_t pos = currentY * VGA_WIDTH + currentX;
+
+	outb(0x3D4, 0x0F);
+	outb(0x3D5, (uint8_t) (pos & 0xFF));
+	outb(0x3D4, 0x0E);
+	outb(0x3D5, (uint8_t) ((pos >> 8) & 0xFF));
+}
+
 void setColour(uint8_t newColour)
 {
     currentColour = newColour;
@@ -30,13 +59,9 @@ void printChar(uint16_t c)
         currentX = 0;
         currentY++;
     }
-    //move cursor
-    uint16_t pos = currentY * VGA_WIDTH + currentX;
-
-	outb(0x3D4, 0x0F);
-	outb(0x3D5, (uint8_t) (pos & 0xFF));
-	outb(0x3D4, 0x0E);
-	outb(0x3D5, (uint8_t) ((pos >> 8) & 0xFF));
+    if (currentY > VGA_HEIGHT)
+        scroll(1);
+    updateCursor();
 }
 
 void putc(int c)
@@ -52,7 +77,7 @@ void putc(int c)
 
 void printStr(const char* str)
 {
-    for (int i = 0; i < strlen(str); i++)
+    for (size_t i = 0; i < strlen(str); i++)
     {
         if (str[i] == '\n')
         {
