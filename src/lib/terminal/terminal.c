@@ -59,7 +59,7 @@ void printChar(uint16_t c)
         currentX = 0;
         currentY++;
     }
-    if (currentY > VGA_HEIGHT)
+    if (currentY == VGA_HEIGHT)
         scroll(1);
     updateCursor();
 }
