@@ -26,10 +26,9 @@ _start:
 
 	call _init
 
-	cli # disable interrupts
-
-	call _startKernel
-    
+	cli
+	# enter protected enters protected mode then calls _protected_start
+	call enter_protected
 	
 1:	hlt
 	jmp 1b

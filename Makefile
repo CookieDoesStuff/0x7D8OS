@@ -30,10 +30,10 @@ $(BUILD_DIR)/OS.bin: $(BUILD_OBJ)
 	mkdir -p $(BUILD_DIR)/isodir/boot/grub
 	$(LINKER) -T src/linker.ld -o $(BUILD_DIR)/isodir/boot/OS.bin $(BUILD_OBJ) -nostdlib -lgcc
 	echo 'menuentry "0x7D8 Operating System" {\n	multiboot /boot/OS.bin\n}' > $(BUILD_DIR)/isodir/boot/grub/grub.cfg
-	grub-mkrescue -o $(BUILD_DIR)/cookieOS.iso $(BUILD_DIR)/isodir
+	grub-mkrescue -o $(BUILD_DIR)/0x7D8OS.iso $(BUILD_DIR)/isodir
 
 run:
-	qemu-system-i386 -cdrom build/cookieOS.iso
+	qemu-system-i386 -cdrom build/0x7D8OS.iso
 
 clean:
 	rm -rf $(BUILD_DIR)/*

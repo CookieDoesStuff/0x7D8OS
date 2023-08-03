@@ -8,6 +8,7 @@
 *           %c: to add a char
 *           %d or %i: to add an integer of base ten
 *           %o: to add an integer of base eight
+*           %%: to print %
 */
 
 
@@ -56,7 +57,8 @@ int printf(const char* restrict format, ...)
                 break;
                 case 'f':
                     double f = va_arg(params, double);
-                    putchar(f);
+            
+                    puts(buffer);
                 break;
                 case '%':
                     putchar('%');
