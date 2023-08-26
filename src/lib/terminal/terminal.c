@@ -1,5 +1,5 @@
 #include "terminal.h"
-#include "../io/io.h"
+#include "../port/port.h"
 #include "../cstdlib/string/string.h"
 
 uint8_t currentX, currentY, currentColour;
@@ -38,10 +38,10 @@ void updateCursor()
 {
     uint16_t pos = currentY * VGA_WIDTH + currentX;
 
-	outb(0x3D4, 0x0F);
-	outb(0x3D5, (uint8_t) (pos & 0xFF));
-	outb(0x3D4, 0x0E);
-	outb(0x3D5, (uint8_t) ((pos >> 8) & 0xFF));
+	write16(0x3D4, 0x0F);
+	write16(0x3D5, (uint8_t) (pos & 0xFF));
+	write16(0x3D4, 0x0E);
+	write16(0x3D5, (uint8_t) ((pos >> 8) & 0xFF));
 }
 
 void setColour(uint8_t newColour)
@@ -85,9 +85,7 @@ void printStr(const char* str)
             currentY++;
         }
         else
-        {
             printChar(mergeChar(str[i], currentColour));
-        }
     }
 }
 
