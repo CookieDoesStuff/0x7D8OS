@@ -100,5 +100,10 @@ void initTerminal(void)
 		for (size_t x = 0; x < VGA_WIDTH; x++) 
 			terminalBuffer[y * VGA_WIDTH + x] = mergeChar(' ', VGA_COLOUR_BLACK);
 	}
+
+    write8(10, 10);
+    write16(11, 11);
+    read8(10u);
+    read16(10u);
 }
  
