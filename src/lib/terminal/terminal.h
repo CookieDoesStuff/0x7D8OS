@@ -1,6 +1,8 @@
 #ifndef __TERMINAL_H
 #define __TERMINAL_H 1
 
+#include <stdbool.h>
+
 typedef unsigned char uint8_t;
 typedef unsigned short int uint16_t;
 
@@ -34,9 +36,9 @@ void scroll(uint8_t);
 void updateCursor();
 
 void setColour(uint8_t);
+uint8_t getCurrentColour();
 
-void printChar(uint16_t);
-void putc(int);
+void printChar(uint16_t, bool);
 void printStr(const char*);
 
 void initTerminal(void);

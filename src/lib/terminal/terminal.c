@@ -38,18 +38,22 @@ void updateCursor()
 {
     uint16_t pos = currentY * VGA_WIDTH + currentX;
 
-	write16(0x3D4, 0x0F);
-	write16(0x3D5, (uint8_t) (pos & 0xFF));
-	write16(0x3D4, 0x0E);
-	write16(0x3D5, (uint8_t) ((pos >> 8) & 0xFF));
+	write8(0x3D4, 0x0F);
+	write8(0x3D5, (uint8_t) (pos & 0xFF));
+	write8(0x3D4, 0x0E);
+	write8(0x3D5, (uint8_t) ((pos >> 8) & 0xFF));
 }
 
 void setColour(uint8_t newColour)
 {
     currentColour = newColour;
 }
+uint8_t getCurrentColour()
+{
+    return currentColour;
+}
 
-void printChar(uint16_t c)
+void printChar(uint16_t c, bool cursor)
 {
     terminalBuffer[currentY * VGA_WIDTH + currentX] = c;
     if (currentX != VGA_WIDTH)
@@ -61,18 +65,8 @@ void printChar(uint16_t c)
     }
     if (currentY == VGA_HEIGHT)
         scroll(1);
-    updateCursor();
-}
-
-void putc(int c)
-{
-    if (c == '\n')
-    {
-        currentX = 0;
-        currentY++;
-    }
-    else 
-        printChar(mergeChar(c, currentColour));
+    if (cursor)
+        updateCursor();
 }
 
 void printStr(const char* str)
@@ -85,8 +79,9 @@ void printStr(const char* str)
             currentY++;
         }
         else
-            printChar(mergeChar(str[i], currentColour));
+            printChar(mergeChar(str[i], currentColour), false);
     }
+    updateCursor();
 }
 
 void initTerminal(void)
@@ -101,9 +96,9 @@ void initTerminal(void)
 			terminalBuffer[y * VGA_WIDTH + x] = mergeChar(' ', VGA_COLOUR_BLACK);
 	}
 
-    write8(10, 10);
-    write16(11, 11);
-    read8(10u);
-    read16(10u);
-}
+    write8(0x3D4, 0x0A);
+	write8(0x3D5, (read8(0x3D5) & 0xC0) | 0);
  
+	write8(0x3D4, 0x0B);
+	write8(0x3D5, (read8(0x3D5) & 0xE0) | 15);
+}

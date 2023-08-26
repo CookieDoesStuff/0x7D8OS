@@ -14,7 +14,6 @@
 
 #include <stdarg.h>
 #include <stddef.h>
-#include "../math/math.h"
 #include "stdio.h"
 
 int printf(const char* restrict format, ...)

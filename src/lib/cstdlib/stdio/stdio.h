@@ -3,6 +3,7 @@
 
 void putchar(int);
 void puts(const char*);
+void putc(int c);
 int printf(const char* __restrict, ...);
 
 #endif
